@@ -3,7 +3,11 @@ Version **0.1**
 
 # Table of Contents
 1. [Laptop Battery Optimization](#battery)
-2. [Status Bar](#example2)
+2. [Status Bar](#bar)
+3. [Multiple Displays](#multiple-displays)
+4. [Window Animations: Compositor](#compositor)
+5. [Lockscreen](#lockscreen)
+6. [Printing](#printers)
 
 ## <a name="battery"/> Laptop Battery Optimization
 Linux by default is not optimized for energy consumption, and will drain your battery quick.

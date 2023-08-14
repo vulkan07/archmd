@@ -8,6 +8,8 @@ Version **0.1**
 4. [Window Animations: Compositor](#compositor)
 5. [Lockscreen](#lockscreen)
 6. [Printing](#printers)
+7. [Launching Apps](#launching-apps)
+8. [Disk Management](#disk-management)
 
 ## <a name="battery"/> Laptop Battery Optimization
 Linux by default is not optimized for energy consumption, and will drain your battery quick.
@@ -94,7 +96,7 @@ Before you can print, you need a driver for all printers.
 
 After installing and setting up the driver, and enabling cups, you should be able to select and use your printer.
 
-## Launching apps from i3
+## <a name="launching-apps"/> Launching apps from i3
 Use **dmenu** or **rofi**. Dmenu will show the selector on the top of the screen, while rofi will be in the middle of the screen. 
 ### dmenu
 1. Install **dmenu**
@@ -102,3 +104,10 @@ Use **dmenu** or **rofi**. Dmenu will show the selector on the top of the screen
 3. Bind it in *.config/i3/config* if you want.
 
 > Note: To access **.desktop** applications with dmenu, install **j4-dmenu-desktop**(aur) alongside **dmenu** package, and use the **j4-dmenu-desktop** command instead.
+
+## <a name="disk-management"/> Disk Management (Free up space)
+Use **ncdu**, a very easy to use command line utility for interactive disk space management.
+Traditional commands you can also use: `du` and `df` (these are not CLI)
+1. Install **ncdu**.
+2. Run `$ ncdu` for your home directory, or run `$ sudo ncdu /` for the whole filesystem-
+3. Navigate with arrows, backspace to go up, press **d** to delete stuff.

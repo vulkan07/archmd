@@ -39,19 +39,23 @@ Syntax: `hdmi <l/r/u/d/off>`
 ```
 pkill polybar
 
-xrandr --output HDMI-1 --auto
+## Set the display names here (use xrandr to get them)
+EDP=eDP1
+HDMI=HDMI1
+
+xrandr --output $HDMI --auto
 if [ $# -eq 0 ]; then
-	xrandr --output HDMI-1 --same-as eDP-1
+	xrandr --output $HDMI --same-as $EDP
 elif [ $1 == "r" ]; then
-	xrandr --output HDMI-1 --right-of eDP-1
+	xrandr --output $HDMI --right-of $EDP
 elif [ $1 == "l" ]; then
-	xrandr --output HDMI-1 --left-of eDP-1
+	xrandr --output $HDMI --left-of $EDP
 elif [ $1 == "u" ] || [ $1 == "t" ] || [ $1 == "a" ]; then
-	xrandr --output HDMI-1 --above eDP-1
+	xrandr --output $HDMI --above $EDP
 elif [ $1 == "d" ] || [ $1 == "b" ]; then
-	xrandr --output HDMI-1 --below eDP-1
+	xrandr --output $HDMI --below $EDP
 elif [ $1 == "off" ]; then
-	xrandr --output HDMI-1 --off
+	xrandr --output $HDMI --off
 fi
 
 if type "xrandr"; then
@@ -86,11 +90,11 @@ The main program required for printing on linux is **cups**.
 2. Enable **`cups.service`** or **`cups.socket`** (The latter will only start cups when a program wants to print)
 
 ### 2. Drivers
-Before you can print, you need a driver for all printers.
+Before you can print, you need a driver for your printer.
 
-- **HP** printers (for most of them atleast):
+- Most **HP** printers *(This was tested on a SmartTank 530)*:
   1. Install **hplip**.
-  2. Run `hp-setup` (requires **python-pyqt5** to run).
+  2. Run `$ hp-setup` (requires **python-pyqt5** to run).
 
 - Other printer drivers: refer to  [this ArchWiki page](https://wiki.archlinux.org/title/CUPS/Printer-specific_problems#HP).
 
@@ -99,15 +103,19 @@ After installing and setting up the driver, and enabling cups, you should be abl
 ## <a name="launching-apps"/> Launching apps from i3
 Use **dmenu** or **rofi**. Dmenu will show the selector on the top of the screen, while rofi will be in the middle of the screen. 
 ### dmenu
-1. Install **dmenu**
-2. Run `dmenu_run` to check if it works.
+1. Install **dmenu**.
+2. Run `$ dmenu_run` to check if it works.
 3. Bind it in *.config/i3/config* if you want.
 
 > Note: To access **.desktop** applications with dmenu, install **j4-dmenu-desktop**(aur) alongside **dmenu** package, and use the **j4-dmenu-desktop** command instead.
 
 ## <a name="disk-management"/> Disk Management (Free up space)
+*Traditional commands you can use: `du` and `df` (these are not CLI). Instead,*
+
 Use **ncdu**, a very easy to use command line utility for interactive disk space management.
-Traditional commands you can also use: `du` and `df` (these are not CLI)
+
 1. Install **ncdu**.
-2. Run `$ ncdu` for your home directory, or run `$ sudo ncdu /` for the whole filesystem-
+2. Run `$ ncdu` for your home directory, or run `$ sudo ncdu /` for the whole filesystem.
 3. Navigate with arrows, backspace to go up, press **d** to delete stuff.
+
+Also pacman's package caches can take up a few gigabytes. To delete them, run: `$ sudo pacman -Sc` (-Scc for deleting caches of all packages)

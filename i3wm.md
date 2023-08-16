@@ -10,6 +10,8 @@ Version **0.1**
 6. [Printing](#printers)
 7. [Launching Apps](#launching-apps)
 8. [Disk Management](#disk-management)
+9. [Blue Light Filter](#red-filter)
+9. [My i3 Keybinds](#keybinds)
 
 ## <a name="battery"/> Laptop Battery Optimization
 Linux by default is not optimized for energy consumption, and will drain your battery quick.
@@ -119,3 +121,65 @@ Use **ncdu**, a very easy to use command line utility for interactive disk space
 3. Navigate with arrows, backspace to go up, press **d** to delete stuff.
 
 Also pacman's package caches can take up a few gigabytes. To delete them, run: `$ sudo pacman -Sc` (-Scc for deleting caches of all packages)
+
+
+
+## <a name="red-filter"/> Blue Light Filter (Night mode)
+If you want your eyes to not burn out on late night programming sessions, use **redshift**, for blue light filtering.
+1. Install **redshift**.
+2. Create a customize config file: `.config/redshift.conf`
+```
+[redshift]
+location-provider=manual
+
+[manual]
+lat=47.497913 		## Location of your area
+lon=19.040236 		## This example is Budapest
+
+[screen]
+temperature-day=5700   	## Set the temperatues (in Kelvin)
+temperature-night=1200
+```
+3. To autostart redshift in background add this to `.config/i3/config`:
+
+`exec --no-startup-id redshift -c <home>/.config/redshift.conf` (replace \<home\>)
+
+## <a name="keybinds"> My i3 Keybinds (Barni)
+In **`.config/i3/config`**:
+``` i3
+### NAVIGATION ###
+
+# Switch between workspaces with Win+Alt+<left/right>
+bindsym $mod+Mod1+Left workspace prev_on_output
+bindsym $mod+Mod1+Right workspace next_on_output
+
+# Toggle i3 window layout
+bindsym $mod+e layout toggle split
+
+# Cycle current workspace between displays
+bindsym $mod+u exec "i3-msg move workspace to output next"
+
+### APP LAUNCH HOTKEYS ###
+
+#Brave Win+C
+bindsym $mod+c exec brave
+
+#Screenshot Win+P
+bindsym $mod+p exec "flameshot gui"
+
+#File Explorer Win+Q
+bindsym $mod+q exec --no-startup-id thunar
+
+
+### OTHER BINDINGS ###
+
+# Lockscreen Win+L (uses custom script)
+bindsym $mod+l exec --no-startup-id /home/olahb/.config/scripts/lock
+
+# Touchpad toggle Win+T (uses custom script)
+bindsym $mod+t exec --no-startup-id /home/olahb/.config/scripts/touchpad
+
+# Brightness control (uses custom script) (custom for MSI laptop)
+bindsym XF86MonBrightnessUp exec --no-startup-id "/home/olahb/.config/scripts/brightness 8"
+bindsym XF86MonBrightnessDown exec --no-startup-id "/home/olahb/.config/scripts/brightness -8"
+```

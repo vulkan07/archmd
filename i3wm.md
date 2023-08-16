@@ -1,11 +1,14 @@
 # Quality of Life Solutions Using i3WM 
-Version **0.1**
+Version **0.2** By **Barni**
+
+i3WM doesn't come pre-packaged with all the utilities like a desktop environment. This document shows how I
+set up most things on my MSI Laptop. These are not universal, some use my scripts, but most of them should work fine.
 
 # Table of Contents
 1. [Laptop Battery Optimization](#battery)
-2. [Status Bar](#bar)
-3. [Multiple Displays](#multiple-displays)
-4. [Window Animations: Compositor](#compositor)
+2. [Status Bar TODO](#bar)
+3. [Multiple Displays TODO](#multiple-displays)
+4. [Window Animations: Compositor TODO](#compositor)
 5. [Lockscreen](#lockscreen)
 6. [Printing](#printers)
 7. [Launching Apps](#launching-apps)
@@ -37,38 +40,82 @@ TODO polybar
 TODO
 
 This .sh script works with **polybar** and **feh**, and simply allows to set the side the HDMI is on.
-Syntax: `hdmi <l/r/u/d/off>`
-```
+Syntax: `hdmi <l/r/u/d/m/off>`
+> Note: You may have different display names, check with xrandr. 
+```sh
+if [ $# -eq 0 ]; then
+    echo "Usage: hdmi [position] <primary> <secondary>"
+    echo "- position: l (left), r (right), t/u (top), b/d (bottom), m/s (mirror), o/off (off)"
+    echo "- primary (optional):   Name of primary screen"
+    echo "- secondary (optional): Name of secondary screen"
+    exit 1
+fi
+
+# Set Monitor Names
+if [ $# -eq 3 ]; then
+	# Names from cmd arguments
+	PRIMARY=$2
+	SECONDARY=$3
+else
+	# Default names
+	PRIMARY=eDP1
+	SECONDARY=HDMI1
+fi
+
+# If 1, polybar will be started on all screens
+# Mirror mode disables this
+POLYBAR=1
+
+# Kill polybar
 pkill polybar
 
-## Set the display names here (use xrandr to get them)
-EDP=eDP1
-HDMI=HDMI1
 
-xrandr --output $HDMI --auto
-if [ $# -eq 0 ]; then
-	xrandr --output $HDMI --same-as $EDP
-elif [ $1 == "r" ]; then
-	xrandr --output $HDMI --right-of $EDP
-elif [ $1 == "l" ]; then
-	xrandr --output $HDMI --left-of $EDP
-elif [ $1 == "u" ] || [ $1 == "t" ] || [ $1 == "a" ]; then
-	xrandr --output $HDMI --above $EDP
-elif [ $1 == "d" ] || [ $1 == "b" ]; then
-	xrandr --output $HDMI --below $EDP
-elif [ $1 == "off" ]; then
-	xrandr --output $HDMI --off
-fi
+# Map single letters to full commands
+case $1 in
+    l)
+        xrandr --output $SECONDARY --auto --left-of $PRIMARY
+		echo -e "\e[1;34m$SECONDARY \e[3mleft\e[0m"
+        ;;
+    r)
+        xrandr --output $SECONDARY --auto --right-of $PRIMARY
+		echo -e "\e[1;34m$SECONDARY \e[3mright\e[0m"
+        ;;
+    t | u)
+        xrandr --output $SECONDARY --auto --above $PRIMARY
+		echo -e "\e[1;34m$SECONDARY \e[3mtop\e[0m"
+        ;;
+    b | d)
+        xrandr --output $SECONDARY --auto --below $PRIMARY
+		echo -e "\e[1;34m$SECONDARY \e[3mbottom\e[0m"
+        ;;
+    o | off )
+        xrandr --output $SECONDARY --off
+		echo -e "\e[1;34m$SECONDARY \e[3moff\e[0m"
+		POLYBAR=0
+        ;;
+	m | s)
+        xrandr --output $SECONDARY --auto --same-as $PRIMARY
+		echo -e "\e[1;34m$SECONDARY \e[3mmirrored\e[0m"
+		POLYBAR=0
+		;;
+    *)
+		echo -e "\e[0;91mInvalid Option: \e[1;91m$1\e[0m"
+        exit 1
+        ;;
+esac
 
-if type "xrandr"; then
+# Set polybar on all screens (except when mirrored)
+if type "xrandr" > /dev/null && [ $POLYBAR -ne 0 ]; then
   for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-    MONITOR=$m polybar --reload & > /dev/null
+    MONITOR=$m polybar -q --reload &
   done
 else
-  polybar --reload &
+  polybar -q --reload &
 fi
+
+# Set wallpaper
 feh --bg-scale /home/olahb/Pictures/Wallpaper.jpg
-echo
+
 ```
 
 ## <a name="compositor"/> Window Animations / Compositor
@@ -125,9 +172,9 @@ Also pacman's package caches can take up a few gigabytes. To delete them, run: `
 
 
 ## <a name="red-filter"/> Blue Light Filter (Night mode)
-If you want your eyes to not burn out on late night programming sessions, use **redshift**, for blue light filtering.
+If you want your eyes to not burn out on late night programming sessions, use **redshift** for blue light filtering.
 1. Install **redshift**.
-2. Create a customize config file: `.config/redshift.conf`
+2. Create and customize config file: `.config/redshift.conf`
 ```
 [redshift]
 location-provider=manual

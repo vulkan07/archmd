@@ -133,12 +133,15 @@ TODO
 
 ## <a name="printers"/> Printers
 
-### 1. cups
+### Add user to **lp** group
+`$ sudo usermod -aG lp <username>`
+
+### 2. cups
 The main program required for printing on linux is **cups**.
 1. install **cups**.
 2. Enable **`cups.service`** or **`cups.socket`** (The latter will only start cups when a program wants to print)
 
-### 2. Drivers
+### 3. Drivers
 Before you can print, you need a driver for your printer.
 
 - Most **HP** printers *(This was tested on a SmartTank 530)*:

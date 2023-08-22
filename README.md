@@ -5,4 +5,4 @@ This is a custom written Guide for Arch Linux for Arch Installation and QoL fixe
 
 By: **Barni**
 
-Version: **0.0**
+Version: **0.1**

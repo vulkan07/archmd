@@ -14,7 +14,8 @@ set up most things on my MSI Laptop. These are not universal, some use my script
 7. [Launching Apps](#launching-apps)
 8. [Disk Management](#disk-management)
 9. [Blue Light Filter](#red-filter)
-9. [My i3 Keybinds](#keybinds)
+10. [My i3 Keybinds](#keybinds)
+10. [Disable Wake by Mouse](#usbwake)
 
 ## <a name="battery"/> Laptop Battery Optimization
 Linux by default is not optimized for energy consumption, and will drain your battery quick.
@@ -233,3 +234,8 @@ bindsym $mod+t exec --no-startup-id /home/olahb/.config/scripts/touchpad
 bindsym XF86MonBrightnessUp exec --no-startup-id "/home/olahb/.config/scripts/brightness 8"
 bindsym XF86MonBrightnessDown exec --no-startup-id "/home/olahb/.config/scripts/brightness -8"
 ```
+
+
+## <a name="usbwake"> Disable waking from USB Mouse [(source)](https://askubuntu.com/a/1373808)
+1. List the USB devices allowed to issue wake up: `$ grep enabled /sys/bus/usb/devices/*/power/wakeup`
+1. Disable appropriate devices: `$ sudo sh -c "echo 'disabled' > /sys/bus/usb/devices/<device-id>/power/wakeup"`

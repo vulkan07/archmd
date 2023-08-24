@@ -36,7 +36,7 @@ If you want further battery lifetime, you need to tune down your CPU. Linux and 
 4. You can set a udev rule to use a power saving governor when unplugged, or run this command manually, or in a power management script.
 
 ## <a name="bar"/> Status Bar
-TODO polybar
+TODO polybar (+ttf-font-awesome for icons)
 
 ## <a name="multiple-displays"/> Multiple displays
 TODO

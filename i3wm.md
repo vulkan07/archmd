@@ -15,7 +15,8 @@ set up most things on my MSI Laptop. These are not universal, some use my script
 8. [Disk Management](#disk-management)
 9. [Blue Light Filter](#red-filter)
 10. [My i3 Keybinds](#keybinds)
-10. [Disable Wake by Mouse](#usbwake)
+11. [Disable Wake by Mouse](#usbwake)
+12. [Images, Screenshots, Thumbnails](#images)
 
 ## <a name="battery"/> Laptop Battery Optimization
 Linux by default is not optimized for energy consumption, and will drain your battery quick.
@@ -239,3 +240,9 @@ bindsym XF86MonBrightnessDown exec --no-startup-id "/home/olahb/.config/scripts/
 ## <a name="usbwake"> Disable waking from USB Mouse [(source)](https://askubuntu.com/a/1373808)
 1. List the USB devices allowed to issue wake up: `$ grep enabled /sys/bus/usb/devices/*/power/wakeup`
 1. Disable appropriate devices: `$ sudo sh -c "echo 'disabled' > /sys/bus/usb/devices/<device-id>/power/wakeup"`
+
+
+## <a name="images"> Images, Screenshots, Thumbnails
+1. For image editing, use **GIMP**.
+2. To get image thumbnails in you file manager, install **tumbler**, and reboot.
+3. For screenshots, use **flameshot**. Bind it using `$ flameshot gui` command.

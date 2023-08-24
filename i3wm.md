@@ -245,4 +245,7 @@ bindsym XF86MonBrightnessDown exec --no-startup-id "/home/olahb/.config/scripts/
 ## <a name="images"> Images, Screenshots, Thumbnails
 1. For image editing, use **GIMP**.
 2. To get image thumbnails in you file manager, install **tumbler**, and reboot.
-3. For screenshots, use **flameshot**. Bind it using `$ flameshot gui` command.
+3. For screenshots, use **flameshot**.
+   	- Use this to screenshot only selected region: `$ flameshot gui`
+   	- Use this to screenshot the whole screen: `$ flameshot full`
+   	- Configure flameshot with `$ flameshot config`

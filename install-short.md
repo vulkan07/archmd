@@ -161,7 +161,7 @@ For NetworkManager, use `$ nmtui` or `$ nmcli` to connect to a network.
 - Reboot
 
 ### Audio
-Install either `pipewire` + `wireplumber` (newer) or `pulseaudio` (older)
+Install `pipewire-pulse` (not tested)
 
 ### Bluetooth
 1. install `bluez` and `bluez-utils`

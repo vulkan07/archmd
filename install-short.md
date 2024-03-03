@@ -161,7 +161,9 @@ For NetworkManager, use `$ nmtui` or `$ nmcli` to connect to a network.
 - Reboot
 
 ### Audio
-Install `pipewire-pulse` (not tested)
+1. Install `pipewire pipewire-pulse wireplumber`
+2. Enable WirePlumber: `systemctl --user --now enable wireplumber`
+> NOTE: if no sound devices are detected, you may need `sof-firmware` (for newer soundcards)
 
 ### Bluetooth
 1. install `bluez` and `bluez-utils`

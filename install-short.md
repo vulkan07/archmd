@@ -21,6 +21,7 @@ Only for users who know what they're doing.
 7. Wi-Fi
      1. Enter `$ iwctl`
      2. `$ device list` Choose the wireless interface (something-like **`wlan0`**)
+        Note: if wlan0 is disabled either try `device <device> set-property Powered on` or `rfkill unblock <device>`
      4. `$ station <device> scan`
      5. `$ station <device> get-networks`
      6. `$ station <device> connect <Wi-Fi name>` (will prompt for password)

@@ -53,20 +53,22 @@ Only for users who know what they're doing.
 
 ## Installing packages
 ### 1) Install Linux to /mnt
-Run `$ pacstrap -K /mnt base base-devel linux linux-firmware <and other packages you want>`
+Run `$ pacstrap -K /mnt base base-devel linux linux-firmware <...>`
 <br>
-Additional packages you probably want to install now:
-- `vi`/`vim`/`nano` (or any text editor)
+Additional recommended packages:
+- `vim`
 - `networkmanager` (if using WiFi)
 - `sudo`
 - `git`
-- `grub` + `efibootmgr` for a bootloader
-- `os-prober` for dual boot
-- `intel-ucode`/`amd-ucode` for Intel/AMD processors
+- `grub` 
+- `efibootmgr` (if EFI system)
+- `os-prober` (if dual booting)
+- `intel-ucode`/`amd-ucode` based on your CPU's brand
 
 
 ### 2) Generate fstab
-Run `$ genfstab -U /mnt > /mnt/etc/fstab`. You can confirm it by `$ cat /mnt/etc/fstab`
+Run `$ genfstab -U /mnt > /mnt/etc/fstab`. 
+Check: `$ cat /mnt/etc/fstab`
 
 ### 3) Change Root
 Run `$ arch-chroot /mnt` 
@@ -76,15 +78,16 @@ Run `$ arch-chroot /mnt`
 2. Run `$ hwclock --systohc` to update your hardware clock
 
 ### 5) Set locale
-1. Edit `/etc/locale.gen` and uncomment `en_US.UTF-8 UTF-8` (or whatever you prefer)
+1. Edit `/etc/locale.gen` uncomment `en_US.UTF-8 UTF-8` (for English)
 2. Run `$ locale-gen`
 3. Run `$ echo "LANG=en_US.UTF-8" > /etc/locale.conf`
 
 ### 6) Set keyboard layout
-`$ echo "KEYMAP=hu" > /etc/vconsole.conf` (for Hungarian)
+- For TTY: `$ echo "KEYMAP=hu" > /etc/vconsole.conf` (for Hungarian)
+- For sddm: `localectl set-keymap hu hu` (for Hungarian) 
 
 ### 7) Set your machine's name
-Run: `$ echo "<name>" > /etc/hostname` (replace \<name> with your name of choice)
+Run: `$ echo "<name>" > /etc/hostname`
 
 ### 8) Mkinitcpio
 This shouldn't be required, but run it anyway: `$ mkinitcpio -P`
@@ -98,18 +101,20 @@ Run `$ passwd`
 	- If you want to dual boot, uncomment this line: `$ GRUB_DISABLE_OS_PROBER=false`
 	- Additionally configure other stuff like GRUB_TIMEOUT, and GRUB_DEFAULT...
 
-2. Run `$ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB`
+2. Install:
+   - EFI: `$ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB`
+   - BIOS: `$ grub-install --target=i386-pc /dev/<device>` \<device> is a whole drive (like `sda`)
 
-3. Run `$ grub-mkconfig -o /boot/grub/grub.cfg`
+4. Run `$ grub-mkconfig -o /boot/grub/grub.cfg`
 
 **For bootctl**:
 https://wiki.archlinux.org/title/Systemd-boot#Installing_the_UEFI_boot_manager
 
 ### 11. Reboot
-1. Type `$ exit` to exit from the chroot, then type `reboot`, and cross your fingers
+1. `$ exit` from the chroot, then  `reboot`, and cross your fingers
 2. Unplug the USB flash
 3. If you installed the system successfully, you'll see GRUB
-4. Log in as 'root' with the password you set
+4. Log in as 'root'
 5. Enjoy!
 
 ----
@@ -131,6 +136,12 @@ For NetworkManager, use `$ nmtui` or `$ nmcli` to connect to a network.
 5. Check if yay works by `$ yay --version`
 6. You can delete the `yay` folder 
 
+### Pacman tweaks
+Edit `/etc/pacman.conf`
+ - Uncomment `ParallelDownloads = 5` - for faster updates
+ - Uncomment `[multilib]` and the line below
+
+
 ### Add your user
 1. Create your user with a home directory:
    `$ useradd <name> -m`
@@ -140,17 +151,21 @@ For NetworkManager, use `$ nmtui` or `$ nmcli` to connect to a network.
    `$ usermod -aG <groups>` (replace \<groups> with the groups you want to add, separated by space)
    Common groups you might consider:
       - `wheel`: makes your user sort of an 'administrator'
-      - `seat`: allows you to run desktop sessions
       - `video`: allows you to do graphical stuff
       - `audio`: allows you to do audio stuff
       - `optical`: allows you to do disks & removable media related stuff
       - `storage`: allows you to do storage related stuff
 4. Make yourself a sudoer:
    - `$ EDITOR=vim sudoedit /etc/sudoers`
+   - To make every user of the `wheel` group a sudoer, uncomment:
    ```
      %wheel ALL=(ALL:ALL) ALL
-     <your username> ALL = (ALL:ALL) ALL
    ```
+
+
+### KDE Desktop
+Install `plasma-meta` for the desktop session
+Install `kde-applications-meta` for all KDE apps (wouldn't recommend, takes 3 gigs and has a lot of useless apps)
 
 ### Graphical Interface
 - Install a greeter like `lightdm` or `sddm`
